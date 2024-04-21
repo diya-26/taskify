@@ -7,6 +7,7 @@ COPY package.json ./
 # Install npm dependencies
 RUN npm install
 # Rebuild bcrypt specifically for ARM architecture
+
 RUN npm rebuild bcrypt --build-from-source
 # Copy the rest of the application code to the working directory
 COPY . .
