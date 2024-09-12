@@ -10,19 +10,22 @@ pipeline {
         }
         stage('Push Docker Image to Docker Hub') {
             steps {
-                // Log in to Docker Hub
+                // Log in to Docker Hub with 'diya26' credentials
                 withCredentials([
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')
                 ]) {
                     sh 'docker login --username $USERNAME --password $PASSWORD'
-                    sh 'docker tag gaurav1954/taskify gaurav1954/taskify:latest'
-                    sh 'docker push gaurav1954/taskify:latest'
+                    // Tag the image with diya26's Docker Hub repository
+                    sh 'docker tag diya26/taskify diya26/taskify:latest'
+                    // Push the image to Docker Hub
+                    sh 'docker push diya26/taskify:latest'
                 }
             }
         }
     }
-    post{
-        success{
+    post {
+        success {
+            // Clean up unused Docker resources
             sh 'docker system prune -a --filter until=20s'
         }
     }
